@@ -9,11 +9,15 @@ CREATE TABLE planos(
 ) engine = InnoDB;
 
 
-CREATE TABLE SpotifyClone.tabela2(
-    coluna1 tipo restricoes,
-    coluna2 tipo restricoes,
-    colunaN tipo restricoes,
+CREATE TABLE users(
+    user_id INT AUTO_INCREMENT PRIMARY_KEY,
+    user_nome VARCHAR(255) NOT NULL,
+    user_idade INT NOT NULL,
 ) engine = InnoDB;
+
+
+
+
 INSERT INTO SpotifyClone.tabela1 (coluna1, coluna2)
 VALUES
   ('exemplo de dados 1', 'exemplo de dados A'),
