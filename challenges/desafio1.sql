@@ -12,7 +12,9 @@ CREATE TABLE planos(
 CREATE TABLE users(
     user_id INT AUTO_INCREMENT PRIMARY_KEY,
     user_nome VARCHAR(255) NOT NULL,
-    user_idade INT NOT NULL
+    user_idade INT NOT NULL,
+    plano_id INT NOT NULL,
+    FOREIGN KEY (plano_id) REFERENCES planos(plano_id)
 ) engine = InnoDB;
 
 
@@ -57,21 +59,30 @@ CREATE TABLE seguidor(
 CREATE TABLE historico_reproducao(
     Song_id INT NOT NULL,
     user_id INT NOT NULL,
+    data_reproducao DATETIME NOT NULL,
     FOREIGN KEY (song_id) REFERENCES songs(song_id),
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 ) engine = InnoDB;
 
-
-
-
-
-
-INSERT INTO SpotifyClone.tabela1 (coluna1, coluna2)
+INSERT INTO planos (plano_nome, plano_valor)
 VALUES
-  ('exemplo de dados 1', 'exemplo de dados A'),
-  ('exemplo de dados 2', 'exemplo de dados B'),
-  ('exemplo de dados 3', 'exemplo de dados C');
-INSERT INTO SpotifyClone.tabela2 (coluna1, coluna2)
+  ('gratuito', 0),
+  ('familiar', 7.99),
+  ('universitário', 5.99),
+  ('pessoal', 6.99);
+
+
+INSERT INTO users (user_nome, user_idade) 
 VALUES
-  ('exemplo de dados 1', 'exemplo de dados X'),
-  ('exemplo de dados 2', 'exemplo de dados Y');
+	('Barbara Liskov', '82', 1),
+	('Robert Cecil Martin', '58', 1),
+	('Ada Lovelace', '37', 2),
+	('Martin Fowler', '46', 2),
+	('Sandi Metz', '58', 2),
+	('Paulo Freire', '19', 3),
+	('Bell Hooks', '26', 3),
+	('Christopher Alexander', '85', 4),
+	('Judith Butler', '45', 4),
+	('Jorge Amado', '58', 4);
+
+
