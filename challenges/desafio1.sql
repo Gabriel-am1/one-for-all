@@ -125,14 +125,14 @@ VALUES
 INSERT INTO songs (album_id, song_nome, duration) 
 VALUES
 	('1', 'ALIEN SUPERSTAR', '116'),
-	('1', `'VIRGO'S GROOVE'`, '369'),
+	('1', "'VIRGO'S GROOVE'", '369'),
 	('1', 'BREAK MY SOUL', '279'),
-	('2', `'Don't Stop Me Now'`, '203'),
+	('2', "'Don't Stop Me Now'", '203'),
 	('3', 'Under Pressure', '152'),
 	('4', 'Como Nossos Pais', '105'),
 	('5', 'O Medo de Amar é o Medo de Ser Livre', '207'),
 	('6', 'Samba em Paris', '267'),
-	('7', `'The Bard's Song'`, '244'),
+	('7', "'The Bard's Song'", '244'),
 	('8', 'Feeling Good', '100');
 
 
@@ -170,8 +170,6 @@ INSERT INTO historico_reproducao (user_id, song_id, data_reproducao) VALUES
 	('8', '2', '2012-03-17 14:56:41'),
 	('9', '5', '2022-02-24 21:14:22'),
 	('10', '1','2015-12-13 08:30:22');
-
-
 
 
 
