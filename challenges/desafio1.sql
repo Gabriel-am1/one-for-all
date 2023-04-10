@@ -14,18 +14,10 @@ CREATE TABLE users(
     user_nome VARCHAR(255) NOT NULL,
     user_idade INT NOT NULL,
     plano_id INT NOT NULL,
-    FOREIGN KEY (plano_id) REFERENCES planos(plano_id)
+	data_assinatura DATETIME NOT NULL,
+FOREIGN KEY (plano_id) REFERENCES planos(plano_id)
 ) engine = InnoDB;
 
-
-CREATE TABLE users_plans(
-    user_id INT NOT NULL,
-    plano_id INT NOT NULL,
-    data_assinatura DATETIME NOT NULL,
-    FOREIGN KEY(plano_id) REFERENCES planos(plano_id),
-    FOREIGN KEY(user_id) REFERENCES users(user_id),
-    CONSTRAINT PRIMARY KEY(plano_id, user_id)
-) engine = InnoDB;
 
 CREATE TABLE artista(
     artista_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -53,7 +45,8 @@ CREATE TABLE seguidor(
     user_id INT NOT NULL,
     artista_id INT NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(user_id),
-    FOREIGN KEY (artista_id) REFERENCES artista(artista_id)
+    FOREIGN KEY (artista_id) REFERENCES artista(artista_id),
+	PRIMARY KEY(user_id, artista_id)
 ) engine = InnoDB;
 
 CREATE TABLE historico_reproducao(
@@ -61,7 +54,10 @@ CREATE TABLE historico_reproducao(
     user_id INT NOT NULL,
     data_reproducao DATETIME NOT NULL,
     FOREIGN KEY (song_id) REFERENCES songs(song_id),
-    FOREIGN KEY (user_id) REFERENCES users(user_id)
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
+	CONSTRAINT PRIMARY KEY(user_id, song_id),
+	CONSTRAINT unique_user_song UNIQUE (user_id, song_id)
+
 ) engine = InnoDB;
 
 INSERT INTO planos (plano_nome, plano_valor)
@@ -72,32 +68,18 @@ VALUES
   ('pessoal', 6.99);
 
 
-INSERT INTO users (user_nome, user_idade,plano_id) 
+INSERT INTO users (user_nome, user_idade,plano_id, data_assinatura) 
 VALUES
-	('Barbara Liskov', '82', 1),
-	('Robert Cecil Martin', '58', 1),
-	('Ada Lovelace', '37', 2),
-	('Martin Fowler', '46', 2),
-	('Sandi Metz', '58', 2),
-	('Paulo Freire', '19', 3),
-	('Bell Hooks', '26', 3),
-	('Christopher Alexander', '85', 4),
-	('Judith Butler', '45', 4),
-	('Jorge Amado', '58', 4);
-
-
-INSERT INTO users_plans (user_id, plano_id, data_assinatura) 
-VALUES
-	('1', '1', '2019-10-20'),
-	('2', '1', '2017-01-06'),
-	('3', '2', '2017-12-30'),
-	('4', '2', '2017-01-17'),
-	('5', '2', '2018-04-29'),
-	('6', '3', '2018-02-14'),
-	('7', '3', '2018-01-05'),
-	('8', '4', '2019-06-05'),
-	('9', '4', '2020-05-13'),
-	('10', '4', '2017-02-17');
+	('Barbara Liskov', '82', 1, '2019-10-20'),
+	('Robert Cecil Martin', '58', 1, '2017-01-06'),
+	('Ada Lovelace', '37', 2, '2017-12-30'),
+	('Martin Fowler', '46', 2, '2017-01-17'),
+	('Sandi Metz', '58', 2, '2018-04-29'),
+	('Paulo Freire', '19', 3, '2018-02-14'),
+	('Bell Hooks', '26', 3, '2018-01-05'),
+	('Christopher Alexander', '85', 4, '2019-06-05'),
+	('Judith Butler', '45', 4, '2020-05-13'),
+	('Jorge Amado', '58', 4, '2017-02-17');
 
 
 INSERT INTO artista (artista_nome) 
@@ -124,16 +106,16 @@ VALUES
 
 INSERT INTO songs (album_id, song_nome, duration) 
 VALUES
-	('1', 'ALIEN SUPERSTAR', '116'),
-	('1', "'VIRGO'S GROOVE'", '369'),
-	('1', 'BREAK MY SOUL', '279'),
-	('2', "'Don't Stop Me Now'", '203'),
-	('3', 'Under Pressure', '152'),
-	('4', 'Como Nossos Pais', '105'),
-	('5', 'O Medo de Amar é o Medo de Ser Livre', '207'),
-	('6', 'Samba em Paris', '267'),
-	('7', "'The Bard's Song'", '244'),
-	('8', 'Feeling Good', '100');
+('BREAK MY SOUL', 279, 1),
+("VIRGO'S GROOVE", 369, 1),
+("ALIEN SUPERSTAR", 116, 1),
+("Don't Stop Me Now", 203, 2),
+("Under Pressure", 152, 3),
+("Como Nossos Pais", 105, 4),
+("O Medo de Amar é o Medo de Ser Livre", 207, 5),
+("Samba em Paris", 267, 6),
+("The Bard's Song", 244, 7),
+("Feeling Good", 100, 8);
 
 
 INSERT INTO seguidor (user_id, artista_id) VALUES
@@ -154,25 +136,19 @@ INSERT INTO seguidor (user_id, artista_id) VALUES
 
 
 INSERT INTO historico_reproducao (user_id, song_id, data_reproducao) VALUES
-	('1', '4', '2022-02-28 10:45:55'),
-	('1', '1', '2020-05-02 05:30:35'),
-	('1', '6', '2020-03-06 11:22:33'),
-	('2', '6', '2022-08-05 08:05:17'),
-	('2', '3', '2020-01-02 07:40:33'),
-	('3', '6', '2020-11-13 16:55:13'),
-	('3', '1', '2020-12-05 18:38:30'),
-	('4', '4', '2021-08-15 17:10:10'),
-	('5', '4', '2022-01-09 01:44:33'),
-	('5', '2', '2020-08-06 15:23:43'),
-	('6', '3', '2017-01-24 00:31:17'),
-	('6', '1', '2017-10-12 12:35:20'),
-	('7', '2', '2011-12-15 22:30:49'),
-	('8', '2', '2012-03-17 14:56:41'),
-	('9', '5', '2022-02-24 21:14:22'),
-	('10', '1','2015-12-13 08:30:22');
-
-
-
-
-
-
+(1, 8, "2022-02-28 10:45:55"),
+(1, 2,  "2020-05-02 05:30:35"),
+(1, 10, "2020-03-06 11:22:33"),
+(2, 10, "2022-08-05 08:05:17"),
+(2, 7, "2020-01-02 07:40:33"),
+(3, 10, "2020-11-13 16:55:13"),
+(3, 2, "2020-12-05 18:38:30"),
+(4, 8, "2021-08-15 17:10:10"),
+(5, 8, "2022-01-09 01:44:33"),
+(5, 5, "2020-08-06 15:23:43"),
+(6, 7, "2017-01-24 00:31:17"),
+(6, 1,  "2017-10-12 12:35:20"),
+(7, 4, "2011-12-15 22:30:49"),
+(8, 4, "2012-03-17 14:56:41"),
+(9, 9, "2022-02-24 21:14:22"),
+(10, 3, "2015-12-13 08:30:22");
