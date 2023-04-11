@@ -50,14 +50,12 @@ CREATE TABLE seguidor(
 ) engine = InnoDB;
 
 CREATE TABLE historico_reproducao(
-    Song_id INT NOT NULL,
     user_id INT NOT NULL,
-    data_reproducao DATETIME NOT NULL,
-    FOREIGN KEY (song_id) REFERENCES songs(song_id),
+    song_id INT NOT NULL,
+    data_reproducao DATETIME NOT NULL UNIQUE,
     FOREIGN KEY (user_id) REFERENCES users(user_id),
-	CONSTRAINT PRIMARY KEY(user_id, song_id),
-	CONSTRAINT unique_user_song UNIQUE (user_id, song_id)
-
+	FOREIGN KEY (song_id) REFERENCES songs(song_id),
+	CONSTRAINT PRIMARY KEY(user_id, song_id)
 ) engine = InnoDB;
 
 INSERT INTO planos (plano_nome, plano_valor)
@@ -104,7 +102,7 @@ VALUES
 	('I Put A Spell On You', '6', '2012');
 
 
-INSERT INTO songs (album_id, song_nome, duration) 
+INSERT INTO songs (song_nome, duration, album_id) 
 VALUES
 ('BREAK MY SOUL', 279, 1),
 ("VIRGO'S GROOVE", 369, 1),
@@ -147,7 +145,7 @@ INSERT INTO historico_reproducao (user_id, song_id, data_reproducao) VALUES
 (5, 8, "2022-01-09 01:44:33"),
 (5, 5, "2020-08-06 15:23:43"),
 (6, 7, "2017-01-24 00:31:17"),
-(6, 1,  "2017-10-12 12:35:20"),
+(6, 1, "2017-10-12 12:35:20"),
 (7, 4, "2011-12-15 22:30:49"),
 (8, 4, "2012-03-17 14:56:41"),
 (9, 9, "2022-02-24 21:14:22"),
